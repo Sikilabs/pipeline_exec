@@ -13,7 +13,7 @@ Just run:
 You need to create a pipeline and add a few funnels to it:
 
 ```python
-from sikifunnels.funnel import Funnel, FunnelPipeline, FunnelPipelineError
+from sikifunnels.funnel import Funnel, FunnelPipeline
 
 # creating our funnels
 class MyTestFunnelPlusOne(Funnel):
