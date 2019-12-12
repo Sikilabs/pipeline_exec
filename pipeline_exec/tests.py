@@ -3,22 +3,22 @@ from pipeline_exec.pipeline import Pipe, Pipeline, PipelineExecError
 
 
 class MyTestPipePlusOne(Pipe):
-    def filter(self, l):
+    def run(self, l):
         return [i + 1 for i in l]
 
 
 class MyTestPipePlusTwo(Pipe):
-    def filter(self, l):
+    def run(self, l):
         return [i + 2 for i in l]
 
 
 class MyTestPipeMinusOne(Pipe):
-    def filter(self, l):
+    def run(self, l):
         return [i - 1 for i in l]
 
 
 class MyTestPipeConcatA(Pipe):
-    def filter(self, l):
+    def run(self, l):
         return [i + "A" for i in l]
 
 
@@ -27,11 +27,11 @@ class TestFunnel(unittest.TestCase):
         self.funnel = Pipe(int)
         self.funnel_plus_one = MyTestPipePlusOne(int)
 
-    def test_filter_exception(self):
-        self.assertRaises(NotImplementedError, self.funnel.filter, [1, 1, 1])
+    def test_run_exception(self):
+        self.assertRaises(NotImplementedError, self.funnel.run, [1, 1, 1])
 
-    def test_filter(self):
-        self.assertEqual(self.funnel_plus_one.filter([1, 1, 1]), [2, 2, 2])
+    def test_run(self):
+        self.assertEqual(self.funnel_plus_one.run([1, 1, 1]), [2, 2, 2])
 
 
 class TestFunnelPipeline(unittest.TestCase):

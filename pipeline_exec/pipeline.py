@@ -11,7 +11,7 @@ class Pipe:
     def __init__(self, model_class):
         self.model_class = model_class
 
-    def filter(self, l: List["self.model_class"]) -> List["self.model_class"]:
+    def run(self, l: List["self.model_class"]) -> List["self.model_class"]:
         raise NotImplementedError
 
 
@@ -90,13 +90,13 @@ class Pipeline(list):
         """
         Run the whole pipeline
         :param input_list: model instances list
-        :return: filtered model instances list
+        :return: runed model instances list
         """
 
         if len(self) == 0:
             raise PipelineExecError("No funnel in pipeline!")
         else:
-            ret = self[0].filter(input_list)
-            for funnel in self[1:]:
-                ret = funnel.filter(ret)
+            ret = self[0].run(input_list)
+            for pipe in self[1:]:
+                ret = pipe.run(ret)
         return ret
