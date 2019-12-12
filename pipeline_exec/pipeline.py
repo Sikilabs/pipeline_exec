@@ -1,13 +1,13 @@
 from typing import List
 
 
-class FunnelPipelineError(Exception):
+class PipelineExecError(Exception):
     """Raised when the input value is too small"""
     pass
 
 
-class Funnel:
-    """Single funnel to filter on a list of objects"""
+class Pipe:
+    """Single Pipe to process a list of objects"""
     def __init__(self, model_class):
         self.model_class = model_class
 
@@ -15,17 +15,17 @@ class Funnel:
         raise NotImplementedError
 
 
-class FunnelPipeline(list):
+class Pipeline(list):
     """Funnel list"""
-    def __init__(self, funnels: List[Funnel] = [], *args, **kwargs):
+    def __init__(self, funnels: List[Pipe] = [], *args, **kwargs):
         self.funnels = funnels
         if self.__pipeline_is_valid():
-            super(FunnelPipeline, self).__init__(funnels)
+            super(Pipeline, self).__init__(funnels)
         else:
-            raise FunnelPipelineError("All funnels should have the same "
+            raise PipelineExecError("All funnels should have the same "
                                       "Model Class!")
 
-    def __funnel_is_valid(self, funnel: Funnel) -> None:
+    def __pipe_is_valid(self, funnel: Pipe) -> None:
         """
         Validate if funnel can be part of pipeline
         A funnel is valid only if its model_class is the same as the other
@@ -49,7 +49,7 @@ class FunnelPipeline(list):
 
         return len(set([f.model_class for f in self.funnels])) in [0, 1]
 
-    def insert(self, index: int, funnel: Funnel) -> None:
+    def insert(self, index: int, funnel: Pipe) -> None:
         """
         Add a funnel to the pipeline
         :param index: position index in pipeline
@@ -57,34 +57,34 @@ class FunnelPipeline(list):
         :return: None
         """
 
-        if self.__funnel_is_valid(funnel):
-            super(FunnelPipeline, self).insert(index, funnel)
+        if self.__pipe_is_valid(funnel):
+            super(Pipeline, self).insert(index, funnel)
         else:
-            raise FunnelPipelineError("This funnel Model Class is different "
+            raise PipelineExecError("This funnel Model Class is different "
                                       "than the others already in the "
                                       "pipeline!")
 
-    def append(self, funnel: Funnel) -> None:
+    def append(self, funnel: Pipe) -> None:
         """
         Add funnel at the end of the pipeline
         :param funnel:
         :return: None
         """
 
-        if self.__funnel_is_valid(funnel):
-            super(FunnelPipeline, self).append(funnel)
+        if self.__pipe_is_valid(funnel):
+            super(Pipeline, self).append(funnel)
         else:
-            raise FunnelPipelineError("This funnel Model Class is different "
+            raise PipelineExecError("This funnel Model Class is different "
                                       "than the others already in the "
                                       "pipeline!")
 
-    def pop(self, index: int = -1) -> Funnel:
+    def pop(self, index: int = -1) -> Pipe:
         """
         Remove a funnel at specified index
         :param index: index in pipeline
         :return: removed funnel
         """
-        super(FunnelPipeline, self).pop(index)
+        super(Pipeline, self).pop(index)
 
     def run(self, input_list: List) -> List:
         """
@@ -94,7 +94,7 @@ class FunnelPipeline(list):
         """
 
         if len(self) == 0:
-            raise FunnelPipelineError("No funnel in pipeline!")
+            raise PipelineExecError("No funnel in pipeline!")
         else:
             ret = self[0].filter(input_list)
             for funnel in self[1:]:
