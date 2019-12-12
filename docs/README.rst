@@ -28,27 +28,26 @@ You need to create a pipeline and add a few funnels to it:
 
     from pipeline_exec.pipeline import Pipe, Pipeline
 
-
     # creating our funnels
-    class MyTestFunnelPlusOne(Pipe):
-        def filter(self, l):
+    class MyTestPipePlusOne(Pipe):
+        def run(self, l):
             return [i + 1 for i in l]
 
 
-    class MyTestFunnelPlusTwo(Pipe):
-        def filter(self, l):
+    class MyTestPipePlusTwo(Pipe):
+        def run(self, l):
             return [i + 2 for i in l]
 
 
-    class MyTestFunnelMinusOne(Pipe):
-        def filter(self, l):
+    class MyTestPipeMinusOne(Pipe):
+        def run(self, l):
             return [i - 1 for i in l]
 
     # creating our pipeline
-    pipeline = Pipeline([MyTestFunnelPlusOne(), MyTestFunnelPlusTwo(), MyTestFunnelMinusOne()])
+    pipeline = Pipeline([MyTestPipePlusOne(), MyTestPipePlusTwo(), MyTestPipeMinusOne()])
 
     # run the pipeline
-    pipeline.run([1, 1, 1])  # returns [3, 3, 3]
+    pipeline.run([1, 1, 1]) # returns [3, 3, 3]
 
 
 Contribute
