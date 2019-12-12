@@ -1,40 +1,46 @@
-# sikifunnels
+# pipeline-exec
 
 ## About
-Sikifunnel is a Funnel Pipeline to apply to  an Object Collection. It's like a
-group of fonction to run on a list of objects.
+pipeline-exec is an execution Pipeline to apply to  an Object Collection. It's like a
+group of functions to run on a list of objects.
+The original goal behind this project was to create a framework to help create a funnel pipeline for Django models instance.
+We're sure there can be many more uses.
 
 ## Installation
 Just run:
 ```
-  pip install -U sikifunnels
+  pip install -U pipeline-exec
 ```
+
 ## Usage
 You need to create a pipeline and add a few funnels to it:
 
 ```python
-from sikifunnels.funnel import Funnel, FunnelPipeline
+from pipeline_exec.pipeline import Pipe, Pipeline
 
 # creating our funnels
-class MyTestFunnelPlusOne(Funnel):
+class MyTestFunnelPlusOne(Pipe):
     def filter(self, l):
         return [i + 1 for i in l]
 
 
-class MyTestFunnelPlusTwo(Funnel):
+class MyTestFunnelPlusTwo(Pipe):
     def filter(self, l):
         return [i + 2 for i in l]
 
 
-class MyTestFunnelMinusOne(Funnel):
+class MyTestFunnelMinusOne(Pipe):
     def filter(self, l):
         return [i - 1 for i in l]
 
 # creating our pipeline
-pipeline = FunnelPipeline([MyTestFunnelPlusOne(), MyTestFunnelPlusTwo(), MyTestFunnelMinusOne()])
+pipeline = Pipeline([MyTestFunnelPlusOne(), MyTestFunnelPlusTwo(), MyTestFunnelMinusOne()])
 
 # run the pipeline
 pipeline.run([1, 1, 1]) # returns [3, 3, 3]
 ```
 
 ## Contribute
+For now, it's very straight forward. Everyone is welcome to contribute. All pull request are against the develop branch.
+Unit tests and the flake8 linter run at every push.
+Thanks in advance for your contribution :)
