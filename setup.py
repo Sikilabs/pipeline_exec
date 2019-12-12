@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='pipeline-exec',
-    version='0.2',
+    version='0.3',
     packages=['pipeline_exec'],
     url='https://github.com/Sikilabs/pipeline_exec',
     license='MIT',
