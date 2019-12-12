@@ -1,30 +1,30 @@
 import unittest
-from sikifunnels.funnel import Funnel, FunnelPipeline, FunnelPipelineError
+from pipeline_exec.pipeline import Pipe, Pipeline, PipelineExecError
 
 
-class MyTestFunnelPlusOne(Funnel):
+class MyTestFunnelPlusOne(Pipe):
     def filter(self, l):
         return [i + 1 for i in l]
 
 
-class MyTestFunnelPlusTwo(Funnel):
+class MyTestFunnelPlusTwo(Pipe):
     def filter(self, l):
         return [i + 2 for i in l]
 
 
-class MyTestFunnelMinusOne(Funnel):
+class MyTestFunnelMinusOne(Pipe):
     def filter(self, l):
         return [i - 1 for i in l]
 
 
-class MyTestFunnelConcatA(Funnel):
+class MyTestFunnelConcatA(Pipe):
     def filter(self, l):
         return [i + "A" for i in l]
 
 
 class TestFunnel(unittest.TestCase):
     def setUp(self) -> None:
-        self.funnel = Funnel(int)
+        self.funnel = Pipe(int)
         self.funnel_plus_one = MyTestFunnelPlusOne(int)
 
     def test_filter_exception(self):
@@ -42,25 +42,25 @@ class TestFunnelPipeline(unittest.TestCase):
         self.funnel_concat_A = MyTestFunnelConcatA(str)
 
     def test_create(self):
-        self.assertRaises(FunnelPipelineError, FunnelPipeline,
+        self.assertRaises(PipelineExecError, Pipeline,
                           [self.funnel_plus_one,
                            self.funnel_concat_A])
-        pipeline = FunnelPipeline([self.funnel_plus_one, self.funnel_plus_two])
+        pipeline = Pipeline([self.funnel_plus_one, self.funnel_plus_two])
         self.assertListEqual(pipeline,
                              [self.funnel_plus_one, self.funnel_plus_two])
 
     def test_append(self):
-        pipeline = FunnelPipeline()
+        pipeline = Pipeline()
         pipeline.append(self.funnel_plus_two)
         pipeline.append(self.funnel_plus_one)
         self.assertListEqual(pipeline,
                              [self.funnel_plus_two, self.funnel_plus_one])
-        self.assertRaises(FunnelPipelineError, pipeline.append,
+        self.assertRaises(PipelineExecError, pipeline.append,
                           self.funnel_concat_A)
 
     def test_insert(self):
-        pipeline = FunnelPipeline([self.funnel_plus_two, self.funnel_plus_one])
-        self.assertRaises(FunnelPipelineError, pipeline.insert, 1,
+        pipeline = Pipeline([self.funnel_plus_two, self.funnel_plus_one])
+        self.assertRaises(PipelineExecError, pipeline.insert, 1,
                           self.funnel_concat_A)
         pipeline.insert(1, self.funnel_minus_one)
         self.assertListEqual(pipeline,
@@ -68,7 +68,7 @@ class TestFunnelPipeline(unittest.TestCase):
                               self.funnel_plus_one])
 
     def test_pop(self):
-        pipeline = FunnelPipeline([self.funnel_plus_two, self.funnel_minus_one,
+        pipeline = Pipeline([self.funnel_plus_two, self.funnel_minus_one,
                                    self.funnel_plus_one])
         pipeline.pop(1)
         self.assertEqual(pipeline,
@@ -77,13 +77,13 @@ class TestFunnelPipeline(unittest.TestCase):
         self.assertEqual(pipeline, [self.funnel_plus_two])
 
     def test_run(self):
-        pipeline_1 = FunnelPipeline(
+        pipeline_1 = Pipeline(
             [self.funnel_plus_two, self.funnel_minus_one,
              self.funnel_plus_one])
         self.assertEqual(pipeline_1.run([1, 1, 1]), [3, 3, 3])
-        pipeline_2 = FunnelPipeline(
+        pipeline_2 = Pipeline(
             [self.funnel_plus_two, self.funnel_minus_one,
              self.funnel_minus_one])
         self.assertEqual(pipeline_2.run([1, 1, 1]), [1, 1, 1])
-        pipeline_2 = FunnelPipeline([self.funnel_concat_A])
+        pipeline_2 = Pipeline([self.funnel_concat_A])
         self.assertEqual(pipeline_2.run(['Z', 'Z', 'Z']), ['ZA', 'ZA', 'ZA'])
