@@ -1,5 +1,9 @@
 # pipeline-exec
 
+## Build Status
+### unstable ![](https://github.com/Sikilabs/pipeline_exec/workflows/tests/badge.svg?branch=develop)
+### stable ![](https://github.com/Sikilabs/pipeline_exec/workflows/tests/badge.svg?branch=master)
+
 ## About
 pipeline-exec is an execution Pipeline to apply to  an Object Collection. It's like a
 group of functions to run on a list of objects.
