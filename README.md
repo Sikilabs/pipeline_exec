@@ -1,14 +1,14 @@
 # pipeline-exec
 
-## Build Status
+##  Status
 ### unstable ![](https://github.com/Sikilabs/pipeline_exec/workflows/tests/badge.svg?branch=develop)
 ### stable ![](https://github.com/Sikilabs/pipeline_exec/workflows/tests/badge.svg?branch=master)
+### Pypi [![PyPI version](https://badge.fury.io/py/pipeline-exec.svg)](https://badge.fury.io/py/pipeline-exec)
 
 ## About
-pipeline-exec is an execution Pipeline to apply to  an Object Collection. It's like a
-group of functions to run on a list of objects.
-The original goal behind this project was to create a framework to help create a funnel pipeline for Django models instance.
-We're sure there can be many more uses.
+*pipeline-exec* is an execution Pipeline to apply to an Object Collection. It's like a group of functions to run against 
+a list of objects on a sequential manner. The original goal behind this project was to implement a framework to help 
+create a funnel pipeline for Django model instances. We're sure there can be many more uses. 
 
 ## Installation
 Just run:
@@ -17,7 +17,7 @@ Just run:
 ```
 
 ## Usage
-You need to create a pipeline and add a few funnels to it:
+You need to create a pipeline and add a few Pipes to it:
 
 ```python
 from pipeline_exec.pipeline import Pipe, Pipeline
@@ -45,6 +45,6 @@ pipeline.run([1, 1, 1]) # returns [3, 3, 3]
 ```
 
 ## Contribute
-For now, it's very straight forward. Everyone is welcome to contribute. All pull request are against the develop branch.
+For now, it's very straight forward. Everyone is welcome to contribute. All pull requests are against the develop branch.
 Unit tests and the flake8 linter run at every push.
 Thanks in advance for your contribution :)
