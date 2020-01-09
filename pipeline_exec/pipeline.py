@@ -2,7 +2,7 @@ from typing import List
 
 
 class PipelineExecError(Exception):
-    """Raised when the input value is too small"""
+    """Base Error"""
     pass
 
 
@@ -16,73 +16,73 @@ class Pipe:
 
 
 class Pipeline(list):
-    """Funnel list"""
-    def __init__(self, funnels: List[Pipe] = [], *args, **kwargs):
-        self.funnels = funnels
+    """Pipe list"""
+    def __init__(self, pipes: List[Pipe] = [], *args, **kwargs):
+        self.pipes = pipes
         if self.__pipeline_is_valid():
-            super(Pipeline, self).__init__(funnels)
+            super(Pipeline, self).__init__(pipes)
         else:
-            raise PipelineExecError("All funnels should have the same "
+            raise PipelineExecError("All pipes should have the same "
                                       "Model Class!")
 
-    def __pipe_is_valid(self, funnel: Pipe) -> None:
+    def __pipe_is_valid(self, pipe: Pipe) -> None:
         """
-        Validate if funnel can be part of pipeline
-        A funnel is valid only if its model_class is the same as the other
-        funnels in the list unless the list is empty
-        :param funnel: Funnel
+        Validate if pipe can be part of pipeline
+        A pipe is valid only if its model_class is the same as the other
+        pipes in the list unless the list is empty
+        :param pipe: Pipe
         :return: None
         """
 
         if self:
-            return self[0].model_class == funnel.model_class
+            return self[0].model_class == pipe.model_class
         else:
             return True
 
     def __pipeline_is_valid(self) -> None:
         """
         Validate the pipeline
-        confirm that the pipeline is empty or that all funnels have the same
+        confirm that the pipeline is empty or that all pipes have the same
         model_class
         :return:
         """
 
-        return len(set([f.model_class for f in self.funnels])) in [0, 1]
+        return len(set([f.model_class for f in self.pipes])) in [0, 1]
 
-    def insert(self, index: int, funnel: Pipe) -> None:
+    def insert(self, index: int, pipe: Pipe) -> None:
         """
-        Add a funnel to the pipeline
+        Add a pipe to the pipeline
         :param index: position index in pipeline
-        :param funnel: funnel
+        :param pipe: pipe
         :return: None
         """
 
-        if self.__pipe_is_valid(funnel):
-            super(Pipeline, self).insert(index, funnel)
+        if self.__pipe_is_valid(pipe):
+            super(Pipeline, self).insert(index, pipe)
         else:
-            raise PipelineExecError("This funnel Model Class is different "
-                                      "than the others already in the "
-                                      "pipeline!")
+            raise PipelineExecError("This pipe Model Class is different "
+                                    "than the others already in the "
+                                    "pipeline!")
 
-    def append(self, funnel: Pipe) -> None:
+    def append(self, pipe: Pipe) -> None:
         """
-        Add funnel at the end of the pipeline
-        :param funnel:
+        Add pipe at the end of the pipeline
+        :param pipe:
         :return: None
         """
 
-        if self.__pipe_is_valid(funnel):
-            super(Pipeline, self).append(funnel)
+        if self.__pipe_is_valid(pipe):
+            super(Pipeline, self).append(pipe)
         else:
-            raise PipelineExecError("This funnel Model Class is different "
-                                      "than the others already in the "
-                                      "pipeline!")
+            raise PipelineExecError("This pipe Model Class is different "
+                                    "than the others already in the "
+                                    "pipeline!")
 
     def pop(self, index: int = -1) -> Pipe:
         """
-        Remove a funnel at specified index
+        Remove a pipe at specified index
         :param index: index in pipeline
-        :return: removed funnel
+        :return: removed pipe
         """
         super(Pipeline, self).pop(index)
 
@@ -94,7 +94,7 @@ class Pipeline(list):
         """
 
         if len(self) == 0:
-            raise PipelineExecError("No funnel in pipeline!")
+            raise PipelineExecError("No pipe in pipeline!")
         else:
             ret = self[0].run(input_list)
             for pipe in self[1:]:
