@@ -23,7 +23,7 @@ class MyTestPipeConcatA(Pipe):
 
 
 class TestPipe(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.funnel = Pipe(int)
         self.funnel_plus_one = MyTestPipePlusOne(int)
 
@@ -35,7 +35,7 @@ class TestPipe(unittest.TestCase):
 
 
 class TestPipeline(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.pipe_plus_one = MyTestPipePlusOne(int)
         self.pipe_plus_two = MyTestPipePlusTwo(int)
         self.pipe_minus_one = MyTestPipeMinusOne(int)
