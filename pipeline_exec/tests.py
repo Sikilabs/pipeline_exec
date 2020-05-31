@@ -22,7 +22,7 @@ class MyTestPipeConcatA(Pipe):
         return [i + "A" for i in l]
 
 
-class TestFunnel(unittest.TestCase):
+class TestPipe(unittest.TestCase):
     def setUp(self) -> None:
         self.funnel = Pipe(int)
         self.funnel_plus_one = MyTestPipePlusOne(int)
@@ -34,7 +34,7 @@ class TestFunnel(unittest.TestCase):
         self.assertEqual(self.funnel_plus_one.run([1, 1, 1]), [2, 2, 2])
 
 
-class TestFunnelPipeline(unittest.TestCase):
+class TestPipeline(unittest.TestCase):
     def setUp(self) -> None:
         self.pipe_plus_one = MyTestPipePlusOne(int)
         self.pipe_plus_two = MyTestPipePlusTwo(int)
