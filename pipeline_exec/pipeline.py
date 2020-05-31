@@ -11,7 +11,7 @@ class Pipe:
     def __init__(self, model_class):
         self.model_class = model_class
 
-    def run(self, l: List["self.model_class"]) -> List["self.model_class"]:
+    def run(self, l: List["self.model_class"]) -> List["self.model_class"]:  # noqa: F821
         raise NotImplementedError
 
 
@@ -25,7 +25,7 @@ class Pipeline(list):
             raise PipelineExecError("All pipes should have the same "
                                       "Model Class!")
 
-    def __pipe_is_valid(self, pipe: Pipe) -> None:
+    def __pipe_is_valid(self, pipe: Pipe) -> bool:
         """
         Validate if pipe can be part of pipeline
         A pipe is valid only if its model_class is the same as the other
@@ -39,7 +39,7 @@ class Pipeline(list):
         else:
             return True
 
-    def __pipeline_is_valid(self) -> None:
+    def __pipeline_is_valid(self) -> bool:
         """
         Validate the pipeline
         confirm that the pipeline is empty or that all pipes have the same
@@ -78,7 +78,7 @@ class Pipeline(list):
                                     "than the others already in the "
                                     "pipeline!")
 
-    def pop(self, index: int = -1) -> Pipe:
+    def pop(self, index: int = -1) -> None:
         """
         Remove a pipe at specified index
         :param index: index in pipeline
